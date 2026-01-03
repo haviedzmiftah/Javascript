@@ -45,17 +45,29 @@
 		let btn = [semua, tersedia, habis];
 		const sortButtons = [sortTermurah, sortTermahal, sortTerbanyak];
 
+		function debounce(fn, delay = 300) {
+			let timeoutId;
+
+			return function (...args) {
+				clearTimeout(timeoutId);
+
+				timeoutId = setTimeout(() => {
+					fn.apply(this, args);
+				}, delay);
+			};
+		}
+
 		//Search
+		const handleSearch = debounce((value) => {
+			searchTerm = value;
+			render();
+		}, 500);
+
 		search.addEventListener("input", (e) => {
-			const value = e.target.value.toLowerCase();
-
-			clearTimeout(searchTimeout);
-
-			searchTimeout = setTimeout(() => {
-				searchTerm = value;
-				render();
-			}, 500);
+			handleSearch(e.target.value.toLowerCase());
 		});
+
+		const debounceRender = debounce(render, 300);
 
 		function showTersedia(data) {
 			return data.filter((item) => item.stok > 0);
@@ -146,7 +158,6 @@
 				ul.innerHTML = "<li>Tidak ada Produk ditemukan</li>";
 				return;
 			}
-
 			ul.innerHTML = data
 				.map((item) => `<li>${item.nama} - ${item.harga} - ${item.stok}</li>`)
 				.join("");
