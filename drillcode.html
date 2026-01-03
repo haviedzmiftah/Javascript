@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="drillcode.css" />
+		<title>Latihan Koding</title>
+	</head>
+	<body>
+		<h3>Latihan Koding</h3>
+
+		<button class="button" id="semua">Semua</button>
+		<button class="button" id="tersedia">Tersedia</button>
+		<button class="button" id="habis">Habis</button>
+
+		<input type="text" id="search" placeholder="Cari produk..." />
+
+		<ul id="list">
+			Tidak ada produk
+		</ul>
+		<button class="button" id="termurah">Termurah</button>
+		<button class="button" id="termahal">Termahal</button>
+		<button class="button" id="terbanyak">Terbanyak</button>
+	</body>
+	<script>
+		let produk = [
+			{ nama: "Laptop", harga: 8000000, stok: 5 },
+			{ nama: "Mouse", harga: 150000, stok: 20 },
+			{ nama: "Keyboard", harga: 300000, stok: 0 },
+		];
+
+		let state = "semua";
+		let searchTerm = "";
+		let sortState = "default";
+		let searchTimeout;
+
+		const semua = document.querySelector("#semua");
+		const tersedia = document.querySelector("#tersedia");
+		const habis = document.querySelector("#habis");
+		const search = document.querySelector("#search");
+		const sortTermurah = document.querySelector("#termurah");
+		const sortTermahal = document.querySelector("#termahal");
+		const sortTerbanyak = document.querySelector("#terbanyak");
+
+		let btn = [semua, tersedia, habis];
+		const sortButtons = [sortTermurah, sortTermahal, sortTerbanyak];
+
+		//Search
+		search.addEventListener("input", (e) => {
+			const value = e.target.value.toLowerCase();
+
+			clearTimeout(searchTimeout);
+
+			searchTimeout = setTimeout(() => {
+				searchTerm = value;
+				render();
+			}, 500);
+		});
+
+		function showTersedia(data) {
+			return data.filter((item) => item.stok > 0);
+		}
+
+		function showHabis(data) {
+			return data.filter((item) => item.stok === 0);
+		}
+
+		//Mapping state dan button
+		const stateConfig = {
+			semua: {
+				getData: () => produk,
+				button: semua,
+			},
+			tersedia: {
+				getData: () => showTersedia(produk),
+				button: tersedia,
+			},
+			habis: {
+				getData: () => showHabis(produk),
+				button: habis,
+			},
+		};
+
+		//Fungsi setState
+		function setState(nextState) {
+			state = nextState;
+			render();
+		}
+
+		semua.addEventListener("click", () => setState("semua"));
+		tersedia.addEventListener("click", () => setState("tersedia"));
+		habis.addEventListener("click", () => setState("habis"));
+
+		sortTermurah.addEventListener("click", () => {
+			sortState = "termurah";
+			render();
+		});
+
+		sortTermahal.addEventListener("click", () => {
+			sortState = "termahal";
+			render();
+		});
+
+		sortTerbanyak.addEventListener("click", () => {
+			sortState = "terbanyak";
+			render();
+		});
+
+		function getDataByState() {
+			return stateConfig[state].getData();
+		}
+
+		function applySearch(data) {
+			if (!searchTerm) return data;
+
+			return data.filter((item) =>
+				item.nama.toLowerCase().includes(searchTerm)
+			);
+		}
+
+		function applySort(data) {
+			if (sortState === "termurah") {
+				return [...data].sort((a, b) => a.harga - b.harga);
+			}
+
+			if (sortState === "termahal") {
+				return [...data].sort((a, b) => b.harga - a.harga);
+			}
+
+			if (sortState === "terbanyak") {
+				return [...data].sort((a, b) => b.stok - a.stok);
+			}
+
+			return data;
+		}
+
+		//Single render function
+		function render() {
+			const ul = document.querySelector("#list");
+
+			let data = getDataByState();
+			data = applySearch(data);
+			data = applySort(data);
+
+			if (data.length === 0) {
+				ul.innerHTML = "<li>Tidak ada Produk ditemukan</li>";
+				return;
+			}
+
+			ul.innerHTML = data
+				.map((item) => `<li>${item.nama} - ${item.harga} - ${item.stok}</li>`)
+				.join("");
+
+			btn.forEach((b) => b.classList.remove("active"));
+			stateConfig[state].button.classList.add("active");
+
+			search.classList.toggle("active", searchTerm !== "");
+
+			sortButtons.forEach((btn) => btn.classList.remove("active"));
+			document.querySelector(`#${sortState}`)?.classList.add("active");
+		}
+		render();
+	</script>
+</html>
