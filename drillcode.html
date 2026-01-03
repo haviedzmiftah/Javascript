@@ -41,6 +41,7 @@
 		const sortTermurah = document.querySelector("#termurah");
 		const sortTermahal = document.querySelector("#termahal");
 		const sortTerbanyak = document.querySelector("#terbanyak");
+		const dataCahe = {};
 
 		let btn = [semua, tersedia, habis];
 		const sortButtons = [sortTermurah, sortTermahal, sortTerbanyak];
@@ -143,6 +144,26 @@
 				return [...data].sort((a, b) => b.stok - a.stok);
 			}
 
+			return data;
+		}
+
+		//cache
+		function getCacheKey() {
+			return `${state}|${searchTerm}|${sortState}`;
+		}
+
+		function getProcessedData() {
+			const cacheKey = getCacheKey();
+
+			if (dataCahe[cacheKey]) {
+				return dataCahe[cacheKey];
+			}
+
+			let data = getDataByState();
+			data = applySearch(data);
+			data = applySort(data);
+
+			dataCahe[cacheKey] = data;
 			return data;
 		}
 
