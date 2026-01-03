@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Smart Expense Tracker</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<div class="container">
+			<h2>Pengelola Keuangan</h2>
+
+			<div class="balance-container">
+				<h4>Saldo Anda</h4>
+				<h1 id="balance">Rp 0</h1>
+			</div>
+
+			<div class="inc-exp-container">
+				<div>
+					<h4>Pemasukan</h4>
+					<p id="money-plus" class="money plus">+Rp 0</p>
+				</div>
+				<div>
+					<h4>Pengeluaran</h4>
+					<p id="money-minus" class="money minus">-Rp 0</p>
+				</div>
+			</div>
+
+			<h3>Riwayat Transaksi</h3>
+			<ul id="list" class="list"></ul>
+
+			<h3>Tambah Transaksi Baru</h3>
+			<form id="form">
+				<div class="form-control">
+					<label for="text">Keterangan</label>
+					<input
+						type="text"
+						id="text"
+						placeholder="Masukkan nama transaksi..."
+						required
+					/>
+				</div>
+				<div class="form-control">
+					<label for="amount"
+						>Nominal (Pemasukan: positif, Pengeluaran: negatif)</label
+					>
+					<input
+						type="number"
+						id="amount"
+						placeholder="Contoh: 50000 atau -20000"
+						required
+					/>
+				</div>
+				<button class="btn" id="btn">Tambah Transaksi</button>
+			</form>
+		</div>
+
+		<script>
+			// 1. Inisialisasi DOM Elements
+			const balance = document.getElementById("balance");
+			const money_plus = document.getElementById("money-plus");
+			const money_minus = document.getElementById("money-minus");
+			const list = document.getElementById("list");
+			const form = document.getElementById("form");
+			const text = document.getElementById("text");
+			const amount = document.getElementById("amount");
+
+			// 2. Ambil data dari Local Storage (jika ada)
+			const localStorageTransactions = JSON.parse(
+				localStorage.getItem("transactions")
+			);
+
+			// State: Array of Objects
+			let transactions =
+				localStorage.getItem("transactions") !== null
+					? localStorageTransactions
+					: [];
+
+			// --- TUGASMU MULAI DARI SINI ---
+
+			// A. Fungsi untuk menambah transaksi ke dalam array
+			function addTransaction(e) {
+				e.preventDefault();
+
+				if (text.value.trim() === "" || amount.value.trim() === "") {
+					alert("Harap isi keterangan dan nominal!");
+				} else {
+					const transaction = {
+						id: generateID(),
+						text: text.value,
+						amount: +amount.value,
+					};
+					transactions.push(transaction);
+					addTransactionDOM(transaction);
+					updateValues();
+					updateLocalStorage();
+					text.value = "";
+					amount.value = "";
+				}
+			}
+
+			// B. Fungsi untuk membuat ID unik (bisa pakai Math.random)
+			function generateID() {
+				return Math.floor(Math.random() * 100000000);
+			}
+
+			// C. Fungsi untuk merender transaksi ke daftar (DOM)
+			function addTransactionDOM(transaction) {
+				const sign = transaction.amount < 0 ? "-" : "+";
+				const item = document.createElement("li");
+				item.classList.add(transaction.amount < 0 ? "minus" : "plus");
+				item.innerHTML = `
+					${transaction.text} <span>${sign}Rp ${Math.abs(transaction.amount)}</span>
+					<button class="delete-btn" onclick="removeTransaction(${
+						transaction.id
+					})">x</button>
+				`;
+				list.appendChild(item);
+			}
+
+			// D. Fungsi untuk update Saldo, Pemasukan, dan Pengeluaran
+			function updateValues() {
+				const amounts = transactions.map((transaction) => transaction.amount);
+				const total = amounts.reduce((acc, item) => (acc += item), 0);
+				const income = amounts
+					.filter((item) => item > 0)
+					.reduce((acc, item) => (acc += item), 0);
+				const expense =
+					amounts
+						.filter((item) => item < 0)
+						.reduce((acc, item) => (acc += item), 0) * -1;
+				balance.innerText = `Rp ${total}`;
+				money_plus.innerText = `+Rp ${income}`;
+				money_minus.innerText = `-Rp ${expense}`;
+			}
+
+			// E. Fungsi untuk menghapus transaksi berdasarkan ID
+			function removeTransaction(id) {
+				transactions = transactions.filter(
+					(transaction) => transaction.id !== id
+				);
+				updateLocalStorage();
+				init();
+			}
+
+			// F. Fungsi untuk update Local Storage
+			function updateLocalStorage() {
+				localStorage.setItem("transactions", JSON.stringify(transactions));
+			}
+
+			// G. Fungsi Inisialisasi App
+			function init() {
+				list.innerHTML = "";
+				transactions.forEach(addTransactionDOM);
+				updateValues();
+			}
+
+			// 3. Event Listeners
+			form.addEventListener("submit", addTransaction);
+
+			// Jalankan aplikasi saat pertama kali load
+			init();
+		</script>
+	</body>
+</html>
