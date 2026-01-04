@@ -23,11 +23,26 @@
 		<button class="button" id="terbanyak">Terbanyak</button>
 	</body>
 	<script>
-		let produk = [
-			{ nama: "Laptop", harga: 8000000, stok: 5 },
-			{ nama: "Mouse", harga: 150000, stok: 20 },
-			{ nama: "Keyboard", harga: 300000, stok: 0 },
-		];
+		let isLoading = false;
+		let error = null;
+
+		function fetchProdukFake() {
+			isLoading = true;
+			render();
+
+			setTimeout(() => {
+				produk = [
+					{ nama: "Laptop", harga: 8000000, stok: 5 },
+					{ nama: "Mouse", harga: 150000, stok: 20 },
+					{ nama: "Keyboard", harga: 300000, stok: 0 },
+				];
+
+				isLoading = false;
+				render();
+			}, 1000);
+		}
+
+		fetchProdukFake();
 
 		let state = "semua";
 		let searchTerm = "";
@@ -170,6 +185,16 @@
 		//Single render function
 		function render() {
 			const ul = document.querySelector("#list");
+
+			if (isLoading) {
+				ul.innerHTML = "<li>Loading...</li>";
+				return;
+			}
+
+			if (error) {
+				ul.innerHTML = `<li>Error: ${error}</li>`;
+				return;
+			}
 
 			let data = getDataByState();
 			data = applySearch(data);
