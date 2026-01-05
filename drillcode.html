@@ -25,24 +25,37 @@
 	<script>
 		let isLoading = false;
 		let error = null;
+		let produk = [];
 
 		function fetchProdukFake() {
-			isLoading = true;
-			render();
-
-			setTimeout(() => {
-				produk = [
-					{ nama: "Laptop", harga: 8000000, stok: 5 },
-					{ nama: "Mouse", harga: 150000, stok: 20 },
-					{ nama: "Keyboard", harga: 300000, stok: 0 },
-				];
-
-				isLoading = false;
-				render();
-			}, 1000);
+			return new Promise((resolve) => {
+				setTimeout(() => {
+					const data = [
+						{ nama: "Laptop", harga: 8000000, stok: 5 },
+						{ nama: "Mouse", harga: 150000, stok: 20 },
+						{ nama: "Keyboard", harga: 300000, stok: 0 },
+					];
+					resolve(data); // Resolve dengan data
+				}, 1000);
+			});
 		}
 
-		fetchProdukFake();
+		async function fetchProduk() {
+			isLoading = true;
+			error = null;
+			render();
+
+			try {
+				produk = await fetchProdukFake();
+			} catch (e) {
+				error = e.message;
+			} finally {
+				isLoading = false;
+				render();
+			}
+		}
+
+		fetchProduk();
 
 		let state = "semua";
 		let searchTerm = "";
@@ -196,14 +209,13 @@
 				return;
 			}
 
-			let data = getDataByState();
-			data = applySearch(data);
-			data = applySort(data);
+			let data = getProcessedData();
 
 			if (data.length === 0) {
 				ul.innerHTML = "<li>Tidak ada Produk ditemukan</li>";
 				return;
 			}
+
 			ul.innerHTML = data
 				.map((item) => `<li>${item.nama} - ${item.harga} - ${item.stok}</li>`)
 				.join("");
