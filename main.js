@@ -68,6 +68,11 @@ document.querySelector("#terbanyak").onclick = () => {
 	render();
 };
 
+document.querySelector("#resetSort").onclick = () => {
+	setSort("default");
+	render();
+};
+
 document.querySelector("#toggleDark").onclick = () => {
 	toggleDarkMode();
 	render();
