@@ -28,14 +28,18 @@
 		let produk = [];
 
 		function fetchProdukFake() {
-			return new Promise((resolve) => {
+			return new Promise((resolve, reject) => {
 				setTimeout(() => {
 					const data = [
 						{ nama: "Laptop", harga: 8000000, stok: 5 },
 						{ nama: "Mouse", harga: 150000, stok: 20 },
 						{ nama: "Keyboard", harga: 300000, stok: 0 },
 					];
-					resolve(data); // Resolve dengan data
+					if (Math.random() > 0.5) {
+						resolve(data);
+					} else {
+						reject(new Error("Gagal mengambil data"));
+					}
 				}, 1000);
 			});
 		}
@@ -205,7 +209,7 @@
 			}
 
 			if (error) {
-				ul.innerHTML = `<li>Error: ${error}</li>`;
+				ul.innerHTML = `<li>Error: ${error}</li><button id="retry">Retry</button>`;
 				return;
 			}
 
@@ -229,5 +233,12 @@
 			document.querySelector(`#${sortState}`)?.classList.add("active");
 		}
 		render();
+
+		// Event listener for retry button
+		document.querySelector("#list").addEventListener("click", (e) => {
+			if (e.target.id === "retry") {
+				fetchProduk();
+			}
+		});
 	</script>
 </html>
