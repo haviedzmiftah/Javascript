@@ -199,8 +199,26 @@
 			return data;
 		}
 
-		//Single render function
-		function render() {
+		function processData({ produk, state, searchTerm, sortState }) {
+			let data = stateConfig[state].getData();
+			if (searchTerm) {
+				data = data.filter((item) =>
+					item.nama.toLowerCase().includes(searchTerm)
+				);
+			}
+
+			if (sortState === "termurah") {
+				data = [...data].sort((a, b) => a.harga - b.harga);
+			} else if (sortState === "termahal") {
+				data = [...data].sort((a, b) => b.harga - a.harga);
+			} else if (sortState === "terbanyak") {
+				data = [...data].sort((a, b) => b.stok - a.stok);
+			}
+
+			return data;
+		}
+
+		function renderUI(data) {
 			const ul = document.querySelector("#list");
 
 			if (isLoading) {
@@ -213,8 +231,6 @@
 				return;
 			}
 
-			let data = getProcessedData();
-
 			if (data.length === 0) {
 				ul.innerHTML = "<li>Tidak ada Produk ditemukan</li>";
 				return;
@@ -223,6 +239,18 @@
 			ul.innerHTML = data
 				.map((item) => `<li>${item.nama} - ${item.harga} - ${item.stok}</li>`)
 				.join("");
+		}
+
+		//Single render function
+		function render() {
+			const data = getProcessedData({
+				produk,
+				state,
+				searchTerm,
+				sortState,
+			});
+
+			renderUI(data);
 
 			btn.forEach((b) => b.classList.remove("active"));
 			stateConfig[state].button.classList.add("active");
