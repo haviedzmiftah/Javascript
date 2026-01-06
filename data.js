@@ -1,9 +1,9 @@
-// data.js - Data fetching
-let isLoading = false;
-let error = null;
-let produk = [];
+// data.js
+export let produk = [];
+export let isLoading = false;
+export let error = null;
 
-function fetchProdukFake() {
+export async function fetchProdukFake() {
 	return new Promise((resolve, reject) => {
 		setTimeout(() => {
 			const data = [
@@ -11,6 +11,7 @@ function fetchProdukFake() {
 				{ nama: "Mouse", harga: 150000, stok: 20 },
 				{ nama: "Keyboard", harga: 300000, stok: 0 },
 			];
+
 			if (Math.random() > 0.5) {
 				resolve(data);
 			} else {
@@ -20,10 +21,9 @@ function fetchProdukFake() {
 	});
 }
 
-async function fetchProduk() {
+export async function fetchProduk() {
 	isLoading = true;
 	error = null;
-	render();
 
 	try {
 		produk = await fetchProdukFake();
@@ -31,8 +31,5 @@ async function fetchProduk() {
 		error = e.message;
 	} finally {
 		isLoading = false;
-		render();
 	}
 }
-
-fetchProduk();
