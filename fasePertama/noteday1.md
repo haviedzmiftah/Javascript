@@ -1,9 +1,38 @@
-yang aku pelajari hari ini adalah 
-1. syntax dasar javascript 
-2. tipe data pada javascript ada 2 kategori yaitu primitif(number, string, boolean, dll) dan non-primitif(array dan function).
-3. ketika deklarasi variabel ada dua cara 
-    a. let = nilai bisa berubah
-    b. const = constan nilai yang tidak bisa berubah 
-4. strict equality == adalah sama dengan tapi tidak melihat type data sedangkan === adalah sama dengan yang lebih spesifik artinya tipe data juga dilihat contoh '1' == 1 (true), '1' === 1 (false)
+# Catatan Hari Pertama — JavaScript Dasar
 
-satu hal yang masih aku bingung adalah operator ?? artinya apa dan bagaimana penggunaannya?
+## 1. Variabel (var, let, const)
+- `var`
+  - di-hoist dan langsung bernilai `undefined`
+  - function scope
+  - hindari untuk kode modern
+
+- `let`
+  - di-hoist tetapi tidak bisa diakses sebelum deklarasi (TDZ)
+  - block scope
+
+- `const`
+  - sama seperti let tetapi nilainya tidak boleh di-reassign
+
+## 2. Tipe Data
+### Primitif:
+- number
+- string
+- boolean
+- null
+- undefined
+- symbol
+- bigint
+
+### Non-primitif (reference type):
+- object
+- array
+- function
+- date, dll.
+
+## 3. Operator Aritmatika dan Template Literal
+Contoh:
+```js
+let angka1 = 10;
+let angka2 = 2;
+
+console.log(`${angka1} + ${angka2} = ${angka1 + angka2}`);
