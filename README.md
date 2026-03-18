@@ -262,24 +262,3 @@ Bangun **aplikasi nyata end‑to‑end**:
 *   **JavaScript.info**: penjelasan komprehensif dari dasar hingga lanjut.
 *   **Node.js Docs**: modul bawaan & panduan event loop.
 *   **React & Next.js Docs**: mengikuti best practice terbaru.
-
-*(Jika kamu ingin, aku bisa buat **lembar latihan** per fase + daftar soal & studi kasus, atau bikin **tracker progres** mingguan.)*
-
-***
-
-## Langkah Berikutnya (rekomendasi personal)
-
-1.  Mulai **Fase 1 Hari 1–2**: variabel, tipe data, operator.
-2.  Aku kirimkan **10 latihan sintaks** + **1 mini–project CLI** untuk minggu pertama.
-3.  Kita set **checkpoint** di akhir minggu: review hasil & bahas kesulitan.
-
-***
-
-Mau aku siapkan **paket minggu pertama** berisi:
-
-*   Daftar latihan (10–15 soal),
-*   Brief mini–project CLI,
-*   Rubrik penilaian sederhana,
-*   Dan *cheatsheet* JS dasar?
-
-Kalau ada preferensi (mis. pakai TypeScript lebih awal, atau target capstone tertentu), kasih tahu ya biar aku sesuaikan.
