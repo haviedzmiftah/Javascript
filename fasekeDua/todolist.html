@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+</head>
+<body>
+    <h1>To Do List Saya</h1>
+    <input type="text" id="inputTugas" placeholder="Tulis Tugas Baru">
+    <button id="tombolTambah">Tambah</button>
+
+    <ul id="daftarTugas"></ul>
+
+    <script>
+        let inputTugas = document.querySelector("#inputTugas");
+        let tombolTambah = document.querySelector("#tombolTambah");
+        let daftarTugasElement = document.querySelector("#daftarTugas");
+        let daftarTugas = [];
+
+        tombolTambah.addEventListener("click", function(){
+           
+            let tugas = {
+                teks:inputTugas.value, 
+                selesai:false 
+            }
+
+           daftarTugas.push(tugas);
+           console.log(daftarTugas);
+
+           tampikanTugas();
+           inputTugas.value ="";
+
+        });
+
+
+        function tampikanTugas() {
+            daftarTugasElement.innerHTML = "";
+
+            daftarTugas.forEach(function(item, index){
+                
+                let li = document.createElement("li");
+                li.textContent = item.teks;
+                
+                if(item.selesai == true){
+                    li.style.textDecoration = "line-through";
+                }else{
+                    li.style.textDecoration = "none";
+                }
+                
+                let tombolHapus = document.createElement("button");
+                tombolHapus.textContent = "Hapus";
+
+                tombolHapus.addEventListener("click", function(){
+                    daftarTugas.splice(index, 1);
+                    tampikanTugas();
+                });
+
+                li.addEventListener("click", function(){
+                   item.selesai = !item.selesai;
+                   tampikanTugas();
+                });
+
+                li.appendChild(tombolHapus);
+                daftarTugasElement.appendChild(li);
+            });
+        }
+
+
+    </script>
+</body>
+</html>
