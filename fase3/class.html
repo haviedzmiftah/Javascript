@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Class</title>
+  </head>
+  <body>
+    <script>
+      //   class siswa {
+      //     constructor(nama, nilai) {
+      //       this.nama = nama;
+      //       this.nilai = nilai;
+      //     }
+
+      //     tampilkanInfo() {
+      //       console.log(this.nama + ": " + this.nilai);
+      //     }
+      //   }
+
+      //   let siswa1 = new siswa("Budi", 90);
+      //   let siswa2 = new siswa("Rini", 89);
+
+      //   siswa1.tampilkanInfo();
+      //   siswa2.tampilkanInfo();
+
+      class Produk {
+        constructor(nama, harga) {
+          this.nama = nama;
+          this.harga = harga;
+        }
+
+        tampilkanInfo() {
+          console.log("nama : " + this.nama + " Harga : " + this.harga);
+        }
+      }
+
+      let produk1 = new Produk("Sabun", 3000);
+      let produk2 = new Produk("pensil", 5000);
+
+      produk1.tampilkanInfo();
+      produk2.tampilkanInfo();
+    </script>
+  </body>
+</html>

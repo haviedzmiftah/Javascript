@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="judul">Data API</h1>
+    <button id="tombol">tampilkan</button>
+    <p id="nama"></p>
+    <p id="email"></p>
+
+    <script>
+
+        async function ambilUser(){
+            let response = await fetch("https://jsonplaceholder.typicode.com/users/1");
+            let data = await response.json();
+
+            let nama = document.querySelector("#nama");
+            let email = document.querySelector("#email");
+            nama.textContent = "Nama : " + data.name;
+            email.textContent = "Email : " + data.email;
+        }
+
+        let tombol = document.querySelector("#tombol");
+        tombol.addEventListener("click", function(){
+            
+            ambilUser();
+            
+        });
+
+    </script>
+</body>
+</html>

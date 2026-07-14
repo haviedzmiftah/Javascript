@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        // let janji = new Promise(function(resolve, reject){
+        //     let berhasil = false;
+
+        //     if (berhasil){
+        //         resolve("Data berhasil diambil");
+        //     }else{
+        //         reject("Terjadi kesalahan");
+        //     }
+        // });
+
+        // janji.then(function(hasil){
+        //     console.log(hasil);
+        // }).catch(function(error){
+        //     console.log(error);
+        // });
+
+        // function ambilData(){
+        //     return new Promise(function(resolve){
+        //         setTimeout(function(){
+        //             resolve("Data siswa berhasil diambil ");
+        //         }, 5000);
+        //     });
+        // }
+
+        // async function tampilkanData() {
+        //     console.log("Mulai mengambil data...");
+        //     let hasil = await ambilData();
+        //     console.log(hasil);
+        //     console.log("Selesai");
+        // }
+
+        // tampilkanData();
+
+
+        async function ambilUser() {
+            let response = await fetch("https://jsonplaceholder.typicode.com/users/1");
+            let data = await response.json();
+            console.log(data);
+        }
+
+        ambilUser();
+
+
+
+    </script>
+</body>
+</html>

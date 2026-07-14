@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+
+    let siswa =[
+        {nama : "Budi", nilai: 88},
+        {nama : "Ani", nilai : 65},
+        {nama : "Citra", nilai : 92},
+        {nama : "Dedi", nilai : 55},
+        {nama : "Eka", nilai : 78}
+    ];
+
+    function tentukanGrade(nilai) {
+        if (nilai >= 90){
+            return "Grade A";
+        }
+        if (nilai >= 80){
+            return "Grade B";
+        }
+        if (nilai >= 70){
+            return "Grade C";
+        }
+        if (nilai >= 60){
+            return "Grade D"
+        }else{
+            return "Grade E";
+        }
+    }
+
+    for (let i = 0 ; i < siswa.length; i++){
+        console.log(siswa[i].nama + ": "+siswa[i].nilai+" - "+tentukanGrade(siswa[i].nilai));
+    }
+
+
+</script>
+</html>

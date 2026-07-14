@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inheritance</title>
+  </head>
+  <body>
+    <script>
+      class Produk {
+        constructor(nama, harga) {
+          this.nama = nama;
+          this.harga = harga;
+        }
+
+        tampilkanProduk() {
+          console.log(this.nama + " - " + this.harga);
+        }
+      }
+
+      class ProdukElektronik extends Produk {
+        constructor(nama, harga, garansi) {
+          super(nama, harga);
+          this.garansi = garansi;
+        }
+        tampilkanProduk() {
+          console.log(
+            this.nama + " - " + this.harga + " - " + this.garansi + " bulan",
+          );
+        }
+      }
+
+      let hp = new ProdukElektronik("Redmi", 2000000, 8);
+      let sabun = new Produk("Lux", 3000);
+
+      hp.tampilkanProduk();
+      sabun.tampilkanProduk();
+    </script>
+  </body>
+</html>

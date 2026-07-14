@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        let buah = ["apel", "Jeruk", "Mangga"];
+        let nilai = [80, 75, 45, 89, 43,40, 65,43,65,23,67,87];
+
+        for (let i = 0; i < buah.length; i++){
+            console.log(buah[i]);
+        }
+       
+        buah.forEach(function(item){
+            console.log(item);
+        });
+
+        let hasil = nilai.map(function(n){
+            return n * 2;
+        });
+
+        console.log(hasil);
+
+        let genap = nilai.filter(function(n){
+            return n % 2 === 0;
+        });
+
+        let ganjil = nilai.filter(function(item){
+            return item % 2 === 1;
+        });
+
+        console.log("Filter")
+
+        console.log(genap);
+        console.log(ganjil);
+
+        let siswa = [
+            {nama : "Budi", nilai : 88},
+            {nama : "ani", nilai : 65},
+            {nama : "Citra", nilai : 92}
+        ];
+
+        let namaSaja = siswa.map(function(item){
+            return item.nama;
+        });
+
+        console.log(namaSaja);
+
+        console.log("Filter dan Map")
+
+        let nilaiSiswa = siswa.filter(function(item){
+            return item.nilai >= 80;
+        }).map(function(item){
+            return item.nama;
+        });
+
+        console.log(nilaiSiswa);
+
+    </script>
+</body>
+</html>
