@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Error Handling</title>
+  </head>
+  <body>
+    <script>
+      function bagi(a, b) {
+        try {
+          if (b === 0) {
+            throw new Error("Tidak bisa dibagi dengan nol");
+          }
+          return a / b;
+        } catch (error) {
+          console.log("Error :" + error.message);
+          return null;
+        }
+      }
+
+      console.log(bagi(10, 5));
+      console.log(bagi(10, 0));
+
+      try {
+        throw new Error("Contoh pesan Error");
+      } catch (error) {
+        console.log(error);
+        console.log(error.message);
+        console.log(typeof error.message);
+      }
+    </script>
+  </body>
+</html>
